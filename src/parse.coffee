@@ -1,7 +1,7 @@
 _         = require("lodash")
 acorn     = require("acorn")
 escodegen = require("escodegen")
-walk      = require("acorn/util/walk")
+walk      = require("acorn-walk")
 
 valuesFromArrayExpression = (expr) -> expr.elements.map( (a) -> a.value )
 

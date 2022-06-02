@@ -9,7 +9,7 @@ concat      = require("gulp-concat")
 plumber     = require("gulp-plumber")
 sourcemaps  = require("gulp-sourcemaps")
 acorn       = require("acorn")
-walk        = require("acorn/util/walk")
+walk        = require("acorn-walk")
 
 amdOptimize = require("../lib/index")
 
