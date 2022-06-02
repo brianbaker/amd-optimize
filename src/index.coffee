@@ -186,8 +186,8 @@ module.exports = rjs = (entryModuleName, options = {}) ->
 
           # Remove excluded modules
           modules = _.reject(modules, (module) ->
-            return _.contains(excludedModuleNames, module.name) or
-            _.contains(options.excludeShallow, module.name)
+            return _.includes(excludedModuleNames, module.name) or
+            _.includes(options.excludeShallow, module.name)
           )
 
           # Fix and export all the files in correct order

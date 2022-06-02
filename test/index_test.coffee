@@ -76,7 +76,7 @@ describe "core", ->
       .pipe(amdOptimize("inline"))
       .on("data", (file) ->
         if counter < 2
-          assert(_.contains(expectedFiles[0..1], file.relative))
+          assert(_.includes(expectedFiles[0..1], file.relative))
         else
           assert.equal(expectedFiles[2], file.relative)
         counter++
@@ -811,8 +811,8 @@ describe "source maps", ->
       .pipe(amdOptimize("index"))
       .on("data", (file) ->
         assert(file.sourceMap?)
-        assert(_.contains(file.sourceMap.sources, file.relative))
-        assert(_.contains(file.sourceMap.sources, file.relative.replace(".js", ".coffee")))
+        assert(_.includes(file.sourceMap.sources, file.relative))
+        assert(_.includes(file.sourceMap.sources, file.relative.replace(".js", ".coffee")))
       )
       # .pipe(sourcemaps.write("."))
       # .pipe(vinylfs.dest("#{dir}/.tmp"))
@@ -829,7 +829,7 @@ describe "source maps", ->
         .on("data", (file) ->
           assert(file.sourceMap?)
           assert.equal(file.sourceMap.file, file.relative)
-          assert(_.contains(file.sourceMap.sources, file.relative))
+          assert(_.includes(file.sourceMap.sources, file.relative))
         )
       done
     )
@@ -849,8 +849,8 @@ describe "source maps", ->
           if path.extname(file.relative) == ".map"
             sourceMap = JSON.parse(file.contents)
             assert(sourceMap?)
-            assert(_.contains(sourceMap.sources, "fuz/ahah.js"))
-            assert(_.contains(sourceMap.sources, "duu.js"))
+            assert(_.includes(sourceMap.sources, "fuz/ahah.js"))
+            assert(_.includes(sourceMap.sources, "duu.js"))
         )
       done
     )

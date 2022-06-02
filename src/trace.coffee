@@ -118,7 +118,7 @@ module.exports = traceModule = (startModuleName, config, allModules = [], fileLo
       callback(null, emitModule(module))
       return
 
-    if _.contains(foundModuleNames, moduleName)
+    if _.includes(foundModuleNames, moduleName)
       callback(new Error("Circular dependency detected. Module '#{moduleName}' has been processed before."))
       return
     else
@@ -244,7 +244,7 @@ module.exports = traceModule = (startModuleName, config, allModules = [], fileLo
 
   emitModule = (module) ->
 
-    if not _.any(allModules, name : module.name)
+    if not _.some(allModules, name : module.name)
       allModules.push(module)
     return module
 
