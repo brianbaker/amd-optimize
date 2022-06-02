@@ -73,9 +73,9 @@ defaultLoader = (fileBuffer, options) ->
 
     addJs = (!asPlainFile) and '.js' or ''
 
-    if options.baseUrl and file = _.detect(fileBuffer, path : path.resolve(options.baseUrl, name + addJs))
+    if options.baseUrl and file = _.find(fileBuffer, path : path.resolve(options.baseUrl, name + addJs))
       callback(null, file)
-    else if file = _.detect(fileBuffer, relative : path.join(options.baseUrl, name + addJs))
+    else if file = _.find(fileBuffer, relative : path.join(options.baseUrl, name + addJs))
       callback(null, file)
     else if options.loader
       options.loader(name, callback)

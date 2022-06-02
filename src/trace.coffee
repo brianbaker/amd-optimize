@@ -106,7 +106,7 @@ module.exports = traceModule = (startModuleName, config, allModules = [], fileLo
 
   resolveModule = (moduleName, callback) ->
 
-    module = _.detect(allModules, name : moduleName)
+    module = _.find(allModules, name : moduleName)
     if module
       callback(null, module)
       return
