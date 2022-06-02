@@ -20,10 +20,13 @@ gulp.task("compile", function (){
 });
 
 
-gulp.task("test", gulp.series("compile"), function () {
+gulp.task("test", gulp.series("compile", function () {
   return gulp.src("test/*_test.coffee")
-    .pipe(mocha({ reporter : "spec" }));
-});
+    .pipe(mocha({
+      require:'coffee-script/register',
+      reporter: 'spec'
+    }));
+}));
 
 
 function logger() {
