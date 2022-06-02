@@ -169,7 +169,7 @@ module.exports = traceModule = (startModuleName, config, allModules = [], fileLo
           return
 
 
-        module.hasDefine = _.any(definitions, (def) ->
+        module.hasDefine = _.some(definitions, (def) ->
           return def.method == "define" and (def.moduleName == undefined or def.moduleName == moduleName)
         )
 
