@@ -43,7 +43,7 @@ collectModules = (module, omitInline = true) ->
     currentModule.deps.forEach( (depModule) ->
       collector(depModule)
     )
-    if not (omitInline and currentModule.isInline) and not _.any(outputBuffer, name : currentModule.name)
+    if not (omitInline and currentModule.isInline) and not _.some(outputBuffer, name : currentModule.name)
       outputBuffer.push(currentModule)
 
   collector(module)
