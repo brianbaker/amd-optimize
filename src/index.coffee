@@ -148,7 +148,7 @@ module.exports = rjs = (entryModuleName, options = {}) ->
         (callback) ->
 
           # Trace entry module
-          trace(entryModuleName, options, null, defaultLoader(fileBuffer, options), callback)
+          trace(entryModuleName, options, undefined, defaultLoader(fileBuffer, options), callback)
 
         (module, callback) ->
 
@@ -163,7 +163,7 @@ module.exports = rjs = (entryModuleName, options = {}) ->
             async.map(
               options.exclude
               (moduleName, callback) ->
-                trace(moduleName, options, null, defaultLoader(fileBuffer, options), callback)
+                trace(moduleName, options, undefined, defaultLoader(fileBuffer, options), callback)
 
               (err, excludedModules) ->
                 if err
@@ -172,8 +172,8 @@ module.exports = rjs = (entryModuleName, options = {}) ->
                   callback(null, modules, _(excludedModules)
                     .map((module) -> collectModules(module))
                     .flatten()
-                    .pluck("name")
-                    .unique()
+                    .map("name")
+                    .uniq()
                     .value())
             )
           else
