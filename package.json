@@ -21,12 +21,12 @@
     "acorn-walk": "^8.2.0",
     "ast-types": "~0.3.16",
     "async": "^3.2.3",
-    "escodegen": "^1.4.1",
+    "escodegen": "^2.0.0",
     "lodash": "^4.17.21",
     "through2": "^4.0.2",
     "vinyl": "^2.2.1",
     "vinyl-fs": "^3.0.3",
-    "vinyl-sourcemaps-apply": "^0.2.1"
+    "vinyl-sourcemaps-apply": "^0.1.4"
   },
   "devDependencies": {
     "coffee-script": "^1.12.7",
