@@ -80,7 +80,12 @@ defaultLoader = (fileBuffer, options) ->
     else if options.loader
       options.loader(name, callback)
     else
-      module.exports.loader()(path.join(options.baseUrl, name + addJs), callback)
+      globOpts = {}
+      # optionally set the `base` https://github.com/gulpjs/glob-stream#optionsbase
+      # so that paths of files that are found are relative to that base
+      if (options.baseUrl)
+        globOpts.base = options.baseUrl
+      module.exports.loader()(path.join(options.baseUrl, name + addJs), globOpts, callback)
 
 
 
@@ -220,7 +225,13 @@ module.exports.src = (moduleName, options) ->
 
 module.exports.loader = (filenameResolver, pipe) ->
 
-  (moduleName, callback) ->
+  (moduleName, options, callback) ->
+
+    # allow for options to be passed in which will
+    # be passed down into vinyl-fs and its dependencies
+    if arguments.length == 2
+      callback = options
+      options = undefined
 
     # console.log(filenameResolver(moduleName))
     if filenameResolver
@@ -228,7 +239,7 @@ module.exports.loader = (filenameResolver, pipe) ->
     else
       filename = moduleName
 
-    source = vinylFs.src(filename).pipe(through.obj())
+    source = vinylFs.src(filename, options).pipe(through.obj())
 
     if pipe
       source = source.pipe(pipe())

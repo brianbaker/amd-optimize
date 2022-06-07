@@ -220,7 +220,7 @@ describe "src", ->
   it "should work with a default file loader", (done) ->
 
     checkExpectedFiles(
-      ["test/fixtures/core/foo.js", "test/fixtures/core/index.js"]
+      ["foo.js", "index.js"]
       amdOptimize.src(
         "index"
         baseUrl : "test/fixtures/core"
@@ -267,7 +267,7 @@ describe "src", ->
   it "should look for files, if not piped in", (done) ->
 
     checkExpectedFiles(
-      ["test/fixtures/core/foo.js", "index.js"]
+      ["foo.js", "index.js"]
       vinylfs.src("#{dir}/fixtures/core/index.js")
         .pipe(amdOptimize(
           "index"
@@ -601,7 +601,7 @@ describe "special paths", ->
 
   it "should apply prefix paths with loader",  (done) ->
     checkExpectedFiles(
-      ["test/fixtures/shortcuts/path/to/module/foo.js", "test/fixtures/shortcuts/index.js"]
+      ["path/to/module/foo.js", "index.js"]
       amdOptimize.src(
         "index"
         baseUrl : "#{dir}/fixtures/shortcuts"
