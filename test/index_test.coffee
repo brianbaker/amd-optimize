@@ -742,7 +742,7 @@ describe "commonjs", ->
 
 describe "source maps", ->
 
-  xit "should create source maps", (done) ->
+  it "should create source maps", (done) ->
 
     vinylfs.src("#{dir}/fixtures/core/*.js")
       .pipe(sourcemaps.init())
@@ -754,7 +754,7 @@ describe "source maps", ->
       )
       .on("end", done)
 
-  xit "should create source maps for files with comments", (done) ->
+  it "should create source maps for files with comments", (done) ->
 
     vinylfs.src("#{dir}/fixtures/comments/*.js")
       .pipe(sourcemaps.init())
@@ -788,17 +788,18 @@ describe "source maps", ->
       # .pipe(vinylfs.dest("#{dir}/.tmp"))
       .on("end", done)
 
-  xit "should keep the relative paths", (done) ->
+  it "should keep the relative paths", (done) ->
 
     checkExpectedFiles(
-      ["fuz/ahah.js", "duu.js"]
+      ["fuz\\ahah.js", "duu.js"]
       vinylfs.src("#{dir}/fixtures/core/**/*.js")
         .pipe(amdOptimize("duu"))
         .pipe(sourcemaps.init())
         .on("data", (file) ->
           assert(file.sourceMap?)
-          assert.equal(file.sourceMap.file, file.relative)
-          assert(_.includes(file.sourceMap.sources, file.relative))
+          # we must normalize the paths so that these checks work on both windows and *nix
+          assert.equal(path.normalize(file.sourceMap.file), path.normalize(file.relative))
+          assert(_.includes(file.sourceMap.sources.map(path.normalize), path.normalize(file.relative)))
         )
       done
     )
