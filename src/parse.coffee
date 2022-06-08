@@ -1,7 +1,7 @@
 _         = require("lodash")
 acorn     = require("acorn")
 escodegen = require("escodegen")
-walk      = require("acorn/util/walk")
+walk      = require("acorn-walk")
 
 valuesFromArrayExpression = (expr) -> expr.elements.map( (a) -> a.value )
 
@@ -80,7 +80,7 @@ module.exports = parseRequireDefinitions = (config, file, callback) ->
 
     if (node.callee.name == "require" or node.callee.name == "requirejs") and node.arguments.length > 0 and node.arguments[0].type == "ArrayExpression"
 
-      defineAncestors = _.any(
+      defineAncestors = _.some(
         state.slice(0, -1)
         (ancestorNode) -> ancestorNode.type == "CallExpression" and (ancestorNode.callee.name == "define" or ancestorNode.callee.name == "require" or ancestorNode.callee.name == "requirejs")
       )

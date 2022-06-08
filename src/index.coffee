@@ -43,7 +43,7 @@ collectModules = (module, omitInline = true) ->
     currentModule.deps.forEach( (depModule) ->
       collector(depModule)
     )
-    if not (omitInline and currentModule.isInline) and not _.any(outputBuffer, name : currentModule.name)
+    if not (omitInline and currentModule.isInline) and not _.some(outputBuffer, name : currentModule.name)
       outputBuffer.push(currentModule)
 
   collector(module)
@@ -73,14 +73,19 @@ defaultLoader = (fileBuffer, options) ->
 
     addJs = (!asPlainFile) and '.js' or ''
 
-    if options.baseUrl and file = _.detect(fileBuffer, path : path.resolve(options.baseUrl, name + addJs))
+    if options.baseUrl and file = _.find(fileBuffer, path : path.resolve(options.baseUrl, name + addJs))
       callback(null, file)
-    else if file = _.detect(fileBuffer, relative : path.join(options.baseUrl, name + addJs))
+    else if file = _.find(fileBuffer, relative : path.join(options.baseUrl, name + addJs))
       callback(null, file)
     else if options.loader
       options.loader(name, callback)
     else
-      module.exports.loader()(path.join(options.baseUrl, name + addJs), callback)
+      globOpts = {}
+      # optionally set the `base` https://github.com/gulpjs/glob-stream#optionsbase
+      # so that paths of files that are found are relative to that base
+      if (options.baseUrl)
+        globOpts.base = options.baseUrl
+      module.exports.loader()(path.join(options.baseUrl, name + addJs), globOpts, callback)
 
 
 
@@ -148,7 +153,7 @@ module.exports = rjs = (entryModuleName, options = {}) ->
         (callback) ->
 
           # Trace entry module
-          trace(entryModuleName, options, null, defaultLoader(fileBuffer, options), callback)
+          trace(entryModuleName, options, undefined, defaultLoader(fileBuffer, options), callback)
 
         (module, callback) ->
 
@@ -163,7 +168,7 @@ module.exports = rjs = (entryModuleName, options = {}) ->
             async.map(
               options.exclude
               (moduleName, callback) ->
-                trace(moduleName, options, null, defaultLoader(fileBuffer, options), callback)
+                trace(moduleName, options, undefined, defaultLoader(fileBuffer, options), callback)
 
               (err, excludedModules) ->
                 if err
@@ -172,8 +177,8 @@ module.exports = rjs = (entryModuleName, options = {}) ->
                   callback(null, modules, _(excludedModules)
                     .map((module) -> collectModules(module))
                     .flatten()
-                    .pluck("name")
-                    .unique()
+                    .map("name")
+                    .uniq()
                     .value())
             )
           else
@@ -186,8 +191,8 @@ module.exports = rjs = (entryModuleName, options = {}) ->
 
           # Remove excluded modules
           modules = _.reject(modules, (module) ->
-            return _.contains(excludedModuleNames, module.name) or
-            _.contains(options.excludeShallow, module.name)
+            return _.includes(excludedModuleNames, module.name) or
+            _.includes(options.excludeShallow, module.name)
           )
 
           # Fix and export all the files in correct order
@@ -220,7 +225,13 @@ module.exports.src = (moduleName, options) ->
 
 module.exports.loader = (filenameResolver, pipe) ->
 
-  (moduleName, callback) ->
+  (moduleName, options, callback) ->
+
+    # allow for options to be passed in which will
+    # be passed down into vinyl-fs and its dependencies
+    if arguments.length == 2
+      callback = options
+      options = undefined
 
     # console.log(filenameResolver(moduleName))
     if filenameResolver
@@ -228,7 +239,7 @@ module.exports.loader = (filenameResolver, pipe) ->
     else
       filename = moduleName
 
-    source = vinylFs.src(filename).pipe(through.obj())
+    source = vinylFs.src(filename, options).pipe(through.obj())
 
     if pipe
       source = source.pipe(pipe())

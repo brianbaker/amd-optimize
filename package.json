@@ -17,26 +17,27 @@
   "author": "Norman Rzepka <norman@scm.io> (http://scm.io)",
   "license": "MIT",
   "dependencies": {
-    "acorn": "^0.9.0",
+    "acorn": "^8.7.1",
+    "acorn-walk": "^8.2.0",
     "ast-types": "~0.3.16",
-    "async": "~0.2.10",
-    "escodegen": "^1.4.1",
-    "lodash": "~2.4.1",
-    "through2": "~0.4.1",
-    "vinyl": "^0.2.3",
-    "vinyl-fs": "^0.3.9",
+    "async": "^3.2.3",
+    "escodegen": "^2.0.0",
+    "lodash": "^4.17.21",
+    "through2": "^4.0.2",
+    "vinyl": "^2.2.1",
+    "vinyl-fs": "^3.0.3",
     "vinyl-sourcemaps-apply": "^0.1.4"
   },
   "devDependencies": {
-    "coffee-script": "~1.7.1",
-    "gulp": "^3.9.0",
-    "gulp-coffee": "^2.3.1",
+    "coffee-script": "^1.12.7",
+    "gulp": "^4.0.2",
+    "gulp-coffee": "^3.0.3",
     "gulp-concat": "^2.3.4",
-    "gulp-if": "0.0.5",
-    "gulp-mocha": "^0.4.1",
-    "gulp-plumber": "^0.6.3",
-    "gulp-sourcemaps": "^1.1.1",
-    "gulp-uglify": "~0.2.1",
-    "gulp-util": "~2.2.14"
+    "gulp-if": "^3.0.0",
+    "gulp-mocha": "^8.0.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-util": "^3.0.8"
   }
 }
