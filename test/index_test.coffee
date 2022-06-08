@@ -791,7 +791,7 @@ describe "source maps", ->
   it "should keep the relative paths", (done) ->
 
     checkExpectedFiles(
-      ["fuz\\ahah.js", "duu.js"]
+      ["fuz/ahah.js", "duu.js"]
       vinylfs.src("#{dir}/fixtures/core/**/*.js")
         .pipe(amdOptimize("duu"))
         .pipe(sourcemaps.init())
