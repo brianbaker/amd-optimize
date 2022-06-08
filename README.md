@@ -1,6 +1,12 @@
+**NOTE**: This repo was forked from [scalableminds/amd-optimize](https://github.com/scalableminds/amd-optimize) and updated since that project is now archived. The repo has been updated for Node 16, Gulp 4 and various other dependencies have been updated though the actual usage remains the same as the original.
+
+
+---
+
+
 This project is no longer actively maintained. Mostly, because we use [Webpack](http://webpack.github.io/) in our projects now. I am happy to review incoming PRs, though. If you would like to become maintainer, please contact me. – [@normanrz](https://github.com/normanrz)
 
-# amd-optimize [![Build Status](https://travis-ci.org/scalableminds/amd-optimize.svg?branch=master)](https://travis-ci.org/scalableminds/amd-optimize)
+# amd-optimize ![Build Status](https://github.com/brianbaker/amd-optimize/actions/workflows/ci.yml/badge.svg?branch=master)
 
 > An AMD ([RequireJS](http://requirejs.org/)) optimizer that's stream-friendly. Made for [gulp](http://gulpjs.com/). (WIP)
 
